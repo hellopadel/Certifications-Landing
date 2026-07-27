@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certifications — HELLO PADEL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0a0a0a;
+    --carbon:#141414;
+    --carbon-2:#1c1c1c;
+    --line:#2a2a2a;
+    --white:#f6f6f4;
+    --grey:#9a9a95;
+    --grey-dim:#6b6b67;
+    --yellow:#ffdd3c;
+    --display: 'Archivo', sans-serif;
+    --body: 'Inter', sans-serif;
+    --maxw: 1120px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--black); color:var(--white); font-family:var(--body); line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+  a{color:inherit; text-decoration:none;}
+  :focus-visible{outline:2px solid var(--yellow); outline-offset:3px;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+
+  .court-lines{
+    position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.05;
+    background-image:linear-gradient(var(--white) 1px, transparent 1px), linear-gradient(90deg, var(--white) 1px, transparent 1px);
+    background-size:80px 80px;
+  }
+
+  /* Nav */
+  .topbar{position:sticky; top:0; z-index:50; background:rgba(10,10,10,.82); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  .topbar .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .brand{font-family:var(--display); font-weight:800; font-size:15px; letter-spacing:.06em; text-transform:uppercase; display:flex; align-items:center; gap:8px;}
+  .brand .h{width:22px; height:22px; border-radius:6px; background:var(--yellow); color:var(--black); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:13px;}
+  .close-btn{width:36px; height:36px; border-radius:50%; border:1px solid var(--line); background:transparent; color:var(--white); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; transition:border-color .2s ease, color .2s ease;}
+  .close-btn:hover{border-color:var(--yellow); color:var(--yellow);}
+
+  /* Hero */
+  .hero{position:relative; z-index:1; padding:96px 0 64px; border-bottom:1px solid var(--line);}
+  .eyebrow{font-family:var(--body); font-weight:600; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--yellow); display:flex; align-items:center; gap:10px; margin-bottom:22px;}
+  .eyebrow::before{content:''; width:24px; height:1px; background:var(--yellow);}
+  h1{font-family:var(--display); font-weight:800; font-size:clamp(36px, 5.6vw, 64px); line-height:1.03; letter-spacing:-.02em; max-width:820px;}
+  h1 em{font-style:normal; color:var(--yellow);}
+  .hero-sub{margin-top:24px; max-width:560px; font-size:17px; color:var(--grey); line-height:1.6;}
+
+  /* Hero pathway strip */
+  .hero-strip{margin-top:52px; display:grid; grid-template-columns:repeat(5,1fr); gap:16px;}
+  @media (max-width:880px){ .hero-strip{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .hero-strip{grid-template-columns:1fr 1fr;} }
+  .hstrip-item{opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease;}
+  .hstrip-item.show{opacity:1; transform:translateY(0);}
+  .hstrip-thumb{position:relative; border-radius:8px; overflow:hidden; border:1px solid var(--line); aspect-ratio:4/3; background:#000;}
+  .hstrip-item.invite .hstrip-thumb{border-style:dashed;}
+  .hstrip-bar{position:absolute; top:0; left:0; right:0; height:3px; z-index:2;}
+  .hstrip-thumb img{width:100%; height:100%; object-fit:cover; display:block;}
+  .hstrip-num{position:absolute; top:8px; left:8px; font-family:var(--display); font-weight:800; font-size:10px; background:rgba(10,10,10,.75); color:#fff; padding:2px 7px; border-radius:5px; z-index:2;}
+  .hstrip-name{margin-top:10px; font-family:var(--display); font-weight:700; font-size:13px;}
+  .hstrip-tag{font-size:10.5px; color:var(--grey-dim); margin-top:2px; text-transform:uppercase; letter-spacing:.06em;}
+
+  /* Stat strip */
+  .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:56px;}
+  @media (max-width:760px){ .stats{grid-template-columns:repeat(2,1fr);} }
+  .stat{background:var(--black); padding:26px 22px;}
+  .stat .num{font-family:var(--display); font-weight:900; font-size:clamp(30px,4vw,44px); color:var(--white); display:flex; align-items:flex-start; gap:2px; line-height:1;}
+  .stat .num .plus{color:var(--yellow); font-size:.5em; margin-top:.2em;}
+  .stat .label{margin-top:10px; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--grey-dim);}
+
+  /* Federation strip */
+  .fed-strip{padding:26px 0; border-bottom:1px solid var(--line);}
+  .fed-strip .wrap{display:flex; flex-direction:column; align-items:flex-start; gap:18px;}
+  .fed-strip .fed-label{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--grey-dim);}
+  .fed-logos{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+  .fed-logo{position:relative; background:#fff; border-radius:10px; padding:12px 18px; height:56px; display:flex; align-items:center; justify-content:center;}
+  .fed-logo img{height:100%; width:auto; max-width:150px; object-fit:contain; display:block;}
+  .knltb-badge{position:absolute; bottom:-9px; right:-9px; background:var(--yellow); color:var(--black); font-family:var(--display); font-weight:800; font-size:10px; padding:3px 8px; border-radius:20px; border:2px solid var(--black); white-space:nowrap;}
+
+  section{position:relative; z-index:1; padding:88px 0;}
+  section + section{border-top:1px solid var(--line);}
+  .section-head{margin-bottom:56px;}
+  .section-num{font-family:var(--display); font-size:13px; color:var(--yellow); letter-spacing:.1em; font-weight:700; margin-bottom:12px;}
+  .section-sub{max-width:520px; color:var(--grey); font-size:15px; line-height:1.6; margin-top:16px;}
+  h2{font-family:var(--display); font-weight:800; font-size:clamp(28px,3.6vw,40px); letter-spacing:-.01em; max-width:640px;}
+
+  /* How the pathway works — rule rows */
+  .rules{display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line);}
+  .rule{background:var(--black); padding:28px 30px; display:grid; grid-template-columns:120px 1fr; gap:24px; border-left:3px solid var(--rc, var(--yellow));}
+  @media (max-width:640px){ .rule{grid-template-columns:1fr; gap:10px;} }
+  .rule .rk{font-family:var(--display); font-weight:800; font-size:12px; color:var(--rc, var(--yellow)); text-transform:uppercase; letter-spacing:.06em;}
+  .rule .rk .lv{display:block; font-size:11px; color:var(--grey-dim); font-weight:600; margin-top:4px; text-transform:none; letter-spacing:.02em;}
+  .rule .rd h3{font-family:var(--display); font-weight:700; font-size:18px; margin-bottom:8px;}
+  .rule .rd p{font-size:14px; color:var(--grey); line-height:1.6;}
+  .rule .rd .note{display:inline-block; margin-top:10px; font-size:11.5px; color:var(--rc, var(--yellow)); border:1px solid var(--line); padding:4px 10px; border-radius:20px;}
+
+  /* Feature grid (localization / on-court) */
+  .feature-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line);}
+  @media (max-width:760px){ .feature-grid{grid-template-columns:1fr;} }
+  .feature-card{background:var(--black); padding:30px 28px;}
+  .feature-card .num{font-family:var(--display); font-weight:800; color:var(--yellow); font-size:13px; margin-bottom:14px;}
+  .feature-card h3{font-family:var(--display); font-size:18px; font-weight:700; margin-bottom:8px;}
+  .feature-card p{font-size:13.5px; color:var(--grey); line-height:1.6;}
+  .feature-icon{width:40px; height:40px; margin-bottom:14px;}
+  .feature-icon svg{width:100%; height:100%; display:block;}
+  .lang-row{display:flex; gap:8px; margin-top:18px; flex-wrap:wrap;}
+  .lang-chip{display:flex; flex-direction:column; align-items:center; gap:4px; background:var(--carbon); border:1px solid var(--line); border-radius:8px; padding:10px 12px; min-width:52px;}
+  .lang-chip .flag{font-size:22px; line-height:1;}
+  .lang-chip .code{font-family:var(--display); font-size:10px; font-weight:800; color:var(--grey); letter-spacing:.05em;}
+
+  /* Exam / verify split */
+  .split{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line);}
+  @media (max-width:760px){ .split{grid-template-columns:1fr;} }
+  .split-card{background:var(--black); padding:38px 32px;}
+  .split-card .tag{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--yellow); font-weight:700; margin-bottom:16px;}
+  .split-card h3{font-family:var(--display); font-size:22px; font-weight:800; margin-bottom:14px;}
+  .split-card p.desc{font-size:13.5px; color:var(--grey); line-height:1.6; margin-bottom:18px;}
+  .split-card ul{list-style:none;}
+  .split-card li{font-size:14px; color:var(--grey); padding:10px 0; border-top:1px solid var(--line); display:flex; gap:10px;}
+  .split-card li:first-of-type{border-top:none;}
+  .split-card li::before{content:'—'; color:var(--yellow); flex-shrink:0;}
+  .split-card .mini-btn{display:inline-block; margin-top:18px; font-size:13px; font-weight:600; color:var(--yellow); border-bottom:1px solid var(--yellow); padding-bottom:2px;}
+
+  /* CTA */
+  .cta{text-align:center; padding:100px 0 120px;}
+  .cta h2{max-width:none; margin:0 auto 18px;}
+  .cta p{color:var(--grey); max-width:480px; margin:0 auto 32px; font-size:15px;}
+  .cta-buttons{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+  .btn{font-family:var(--body); font-weight:600; font-size:14px; padding:15px 30px; border-radius:2px; display:inline-block; cursor:pointer; border:1px solid transparent; transition:transform .2s ease;}
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--yellow); color:var(--black);}
+  .btn-ghost{border-color:var(--line); color:var(--white);}
+
+  footer{border-top:1px solid var(--line); padding:28px 0; text-align:center; font-size:12px; color:var(--grey-dim);}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition-duration:.01ms !important; animation-duration:.01ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="court-lines"></div>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="h">H</span> HELLO PADEL — Certifications</div>
+    <button class="close-btn" aria-label="Close" onclick="window.close ? window.close() : history.back()">✕</button>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Coach Education Pathway</div>
+    <h1>Five levels.<br>One clear road to <em>DifferentLevel</em> Coach.</h1>
+    <p class="hero-sub">Where tactic is clearly explained and your experience becomes your competitive advantage. One single coaching standard, one international certification.</p>
+
+    <div class="hero-strip" id="heroStrip">
+      <div class="hstrip-item">
+        <div class="hstrip-thumb">
+          <span class="hstrip-bar" style="background:#ffdd3c;"></span>
+          <img src="assets/thumb-instructor.png" alt="Instructor diploma">
+          <span class="hstrip-num">01</span>
+        </div>
+        <div class="hstrip-name">Instructor</div>
+        <div class="hstrip-tag">Entry Level · Online</div>
+      </div>
+      <div class="hstrip-item">
+        <div class="hstrip-thumb">
+          <span class="hstrip-bar" style="background:#b8763e;"></span>
+          <img src="assets/thumb-bronze.png" alt="Bronze diploma">
+          <span class="hstrip-num">02</span>
+        </div>
+        <div class="hstrip-name">Bronze</div>
+        <div class="hstrip-tag">Level 1 · Online + Practical</div>
+      </div>
+      <div class="hstrip-item">
+        <div class="hstrip-thumb">
+          <span class="hstrip-bar" style="background:#b6b6b6;"></span>
+          <img src="assets/thumb-silver.png" alt="Silver diploma">
+          <span class="hstrip-num">03</span>
+        </div>
+        <div class="hstrip-name">Silver</div>
+        <div class="hstrip-tag">Level 2 · Online + Practical</div>
+      </div>
+      <div class="hstrip-item">
+        <div class="hstrip-thumb">
+          <span class="hstrip-bar" style="background:#d4af37;"></span>
+          <img src="assets/thumb-gold.png" alt="Gold diploma">
+          <span class="hstrip-num">04</span>
+        </div>
+        <div class="hstrip-name">Gold</div>
+        <div class="hstrip-tag">Level 3 · Online + Practical</div>
+      </div>
+      <div class="hstrip-item invite">
+        <div class="hstrip-thumb">
+          <span class="hstrip-bar" style="background:#9b8ec4;"></span>
+          <img src="assets/thumb-platinum.png" alt="Platinum diploma">
+          <span class="hstrip-num">05</span>
+        </div>
+        <div class="hstrip-name">Platinum</div>
+        <div class="hstrip-tag">Level 4 · Invitational</div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="num">2016</div>
+        <div class="label">Since</div>
+      </div>
+      <div class="stat">
+        <div class="num">7,000<span class="plus">+</span></div>
+        <div class="label">Coaches certified</div>
+      </div>
+      <div class="stat">
+        <div class="num">35<span class="plus">+</span></div>
+        <div class="label">Countries</div>
+      </div>
+      <div class="stat">
+        <div class="num">5<span class="plus">+</span></div>
+        <div class="label">Federation partners</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="fed-strip">
+  <div class="wrap">
+    <span class="fed-label">Methodology recognized by national federations</span>
+    <div class="fed-logos">
+      <div class="fed-logo"><img src="assets/fed-germany.png" alt="Deutscher Padel Verband"></div>
+      <div class="fed-logo"><img src="assets/fed-austria.png" alt="Austrian Padel Union"></div>
+      <div class="fed-logo"><img src="assets/fed-denmark.png" alt="Dansk Padel Forbund"></div>
+      <div class="fed-logo"><img src="assets/fed-switzerland.png" alt="Swiss Padel"></div>
+      <div class="fed-logo"><img src="assets/fed-netherlands.png" alt="KNLTB Padel"><span class="knltb-badge">+12 pts</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="how-it-works">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">01 — How the Pathway Works</div>
+        <h2>Every level, explained</h2>
+      </div>
+      <p class="section-sub">Five levels, one progression. Here's exactly who can take each course, and what it takes to move to the next one.</p>
+    </div>
+
+    <div class="rules">
+      <div class="rule" style="--rc:#ffdd3c;">
+        <div class="rk">01 · Instructor<span class="lv">Entry Level</span></div>
+        <div class="rd">
+          <h3>Open to everyone, no matter your level</h3>
+          <p>100% online and self-paced. Arguably the most important course in the whole Pathway: it's where we teach the real essence and methodology behind HELLO PADEL — the foundation everything else is built on. Every coach starts here.</p>
+        </div>
+      </div>
+      <div class="rule" style="--rc:#b8763e;">
+        <div class="rk">02 · Bronze<span class="lv">Level 1</span></div>
+        <div class="rd">
+          <h3>Open to anyone — but Instructor comes first</h3>
+          <p>Anyone can take Bronze, even before completing Instructor. But to receive the final diploma and appear in the Coach Verification System, Instructor must be completed. If you finish Bronze first, both diplomas are issued together as soon as Instructor is done.</p>
+          <span class="note">Diploma requires Instructor completed</span>
+        </div>
+      </div>
+      <div class="rule" style="--rc:#b6b6b6;">
+        <div class="rk">03 · Silver<span class="lv">Level 2</span></div>
+        <div class="rd">
+          <h3>Builds directly on Bronze</h3>
+          <p>Deeper tactical methodology and communication. Includes a mandatory practical exam with a Head Coach.</p>
+        </div>
+      </div>
+      <div class="rule" style="--rc:#d4af37;">
+        <div class="rk">04 · Gold<span class="lv">Level 3</span></div>
+        <div class="rd">
+          <h3>Advanced, strategic coaching</h3>
+          <p>Prepares coaches for advanced players, competition and performance planning. Completing Gold is what opens the door to Platinum.</p>
+        </div>
+      </div>
+      <div class="rule" style="--rc:#9b8ec4;">
+        <div class="rk">05 · Platinum<span class="lv">Level 4</span></div>
+        <div class="rd">
+          <h3>Invitational only</h3>
+          <p>Open exclusively to coaches who have completed Gold and are personally invited by Mauri Andrini and his team in Barcelona. The highest level of coaching in the HELLO PADEL Pathway.</p>
+          <span class="note">By invitation only</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="localization" style="padding:44px 0;">
+  <div class="wrap">
+    <div class="feature-grid">
+      <div class="feature-card" style="grid-column:1/-1;">
+        <div class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 20a12 12 0 0 1 24 0" stroke="#ffdd3c" stroke-width="2.2" stroke-linecap="round"/>
+            <rect x="5.5" y="19" width="6" height="10" rx="3" fill="#ffdd3c"/>
+            <rect x="28.5" y="19" width="6" height="10" rx="3" fill="#ffdd3c"/>
+            <path d="M17 30.5h4.5a2.5 2.5 0 0 0 0-5H17" stroke="#ffdd3c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Everything, in your language</h3>
+        <p>The app, the videos, the quiz questions, the Exam Portal, and the theoretical, spoken and practical exams — all available in multiple languages, so you never miss a detail.</p>
+        <div class="lang-row">
+          <span class="lang-chip"><span class="flag">🇬🇧</span><span class="code">EN</span></span>
+          <span class="lang-chip"><span class="flag">🇪🇸</span><span class="code">ES</span></span>
+          <span class="lang-chip"><span class="flag">🇩🇪</span><span class="code">DE</span></span>
+          <span class="lang-chip"><span class="flag">🇫🇷</span><span class="code">FR</span></span>
+          <span class="lang-chip"><span class="flag">🇮🇹</span><span class="code">IT</span></span>
+          <span class="lang-chip"><span class="flag">🇸🇦</span><span class="code">AR</span></span>
+          <span class="lang-chip"><span class="flag">🇷🇺</span><span class="code">RU</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="oncourt">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">02 — The On-Court Event</div>
+        <h2>On court, with our Head Coaches</h2>
+      </div>
+      <p class="section-sub">An intensive, in-person practical course led by HELLO PADEL tutors. From the Bronze course onwards, the in-person part is a must to complete every stage: online, in-person and examination.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="num">01</div>
+        <h3>Methodology in Action</h3>
+        <p>Our global coaching framework, applied in real sessions on court.</p>
+      </div>
+      <div class="feature-card">
+        <div class="num">02</div>
+        <h3>Exercises to Master</h3>
+        <p>Dozens of hands-on drills you can use every day — combine them with the exercises from the videos you already have access to.</p>
+      </div>
+      <div class="feature-card">
+        <div class="num">03</div>
+        <h3>Tactical Coaching</h3>
+        <p>Teach your players while they play the sport. Padel is more tactical than technical, and people want to play and have fun — the HELLO PADEL Method is the perfect mix to lead any level session.</p>
+      </div>
+      <div class="feature-card">
+        <div class="num">04</div>
+        <h3>Live Feedback & Assessment</h3>
+        <p>Personal, on-court feedback that leads directly into the practical exam.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="exam-verify">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">03 — Evaluation & Verification</div>
+        <h2>Tested, marked, certified</h2>
+      </div>
+      <p class="section-sub">Passing a HELLO PADEL level means something — and anyone can check it.</p>
+    </div>
+
+    <div class="split">
+      <div class="split-card">
+        <div class="tag">Exam System</div>
+        <h3>Theoretical, spoken & practical</h3>
+        <p class="desc">Coaches sit a multiple-choice theoretical exam, a spoken exam, and practical exams on court.</p>
+        <ul>
+          <li>Marked by the HELLO PADEL Exam Board in Spain</li>
+          <li>Detailed video feedback on every skill</li>
+          <li>Two attempts included per evaluated part</li>
+        </ul>
+        <a href="https://exams.hellopadelacademy.com/login/index.php?loginredirect=1" class="mini-btn">Open the Exam Portal →</a>
+      </div>
+      <div class="split-card">
+        <div class="tag">Coach Verification</div>
+        <h3>Diploma & licence number</h3>
+        <p class="desc">Once approved, every coach receives an official diploma and a unique, publicly verifiable licence number.</p>
+        <ul>
+          <li>Public profile with level and completed training</li>
+          <li>Searchable by name or licence number</li>
+          <li>Possible recognition by partner federations</li>
+        </ul>
+        <span class="mini-btn" style="cursor:default; border-bottom-style:dashed; opacity:.85;">Coach Verification System</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <h2>Ready to start your Pathway?</h2>
+    <p>Start with Instructor — 100% online, at your own pace — and move level by level toward DifferentLevel.</p>
+    <div class="cta-buttons">
+      <a href="#" class="btn btn-primary">Start with Instructor</a>
+      <a href="#" class="btn btn-ghost">Talk to a Head Coach</a>
+    </div>
+  </div>
+</section>
+
+<footer>HELLO PADEL — DifferentLevel Coach Education</footer>
+
+<script>
+  const items = document.querySelectorAll('.hstrip-item, .rule');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
+  }, { threshold: 0.3 });
+  items.forEach(n => revealObserver.observe(n));
+</script>
+
+</body>
+</html>
