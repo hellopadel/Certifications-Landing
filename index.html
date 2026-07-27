@@ -56,13 +56,20 @@
   @media (max-width:520px){ .hero-strip{grid-template-columns:1fr 1fr;} }
   .hstrip-item{opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease;}
   .hstrip-item.show{opacity:1; transform:translateY(0);}
-  .hstrip-thumb{position:relative; border-radius:8px; overflow:hidden; border:1px solid var(--line); aspect-ratio:4/3; background:#000;}
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity .6s cubic-bezier(.22,.9,.3,1), transform .6s cubic-bezier(.22,.9,.3,1);}
+  .reveal.show{opacity:1; transform:translateY(0);}
+  .hstrip-thumb{position:relative; border-radius:8px; overflow:hidden; border:1px solid var(--line); aspect-ratio:4/3; background:#000; cursor:pointer; transition:transform .25s cubic-bezier(.22,.9,.3,1), border-color .25s ease, box-shadow .25s ease;}
+  .hstrip-thumb:hover{transform:scale(1.045); border-color:var(--yellow); box-shadow:0 10px 26px rgba(0,0,0,.5);}
+  .hstrip-thumb:hover img{transform:scale(1.06);}
   .hstrip-item.invite .hstrip-thumb{border-style:dashed;}
   .hstrip-bar{position:absolute; top:0; left:0; right:0; height:3px; z-index:2;}
-  .hstrip-thumb img{width:100%; height:100%; object-fit:cover; display:block;}
+  .hstrip-thumb img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .3s cubic-bezier(.22,.9,.3,1);}
   .hstrip-num{position:absolute; top:8px; left:8px; font-family:var(--display); font-weight:800; font-size:10px; background:rgba(10,10,10,.75); color:#fff; padding:2px 7px; border-radius:5px; z-index:2;}
-  .hstrip-name{margin-top:10px; font-family:var(--display); font-weight:700; font-size:13px;}
-  .hstrip-tag{font-size:10.5px; color:var(--grey-dim); margin-top:2px; text-transform:uppercase; letter-spacing:.06em;}
+  .hstrip-pill{display:inline-block; font-family:var(--display); font-weight:800; font-size:11px; letter-spacing:.03em; padding:7px 16px; border-radius:20px; margin-top:16px;}
+  .hstrip-pill.solid{background:var(--yellow); color:var(--black);}
+  .hstrip-pill.outline{border:1px solid var(--line); color:var(--grey);}
+  .hstrip-pill.invite{border:1px dashed var(--yellow); color:var(--yellow);}
+  .hstrip-desc{margin-top:12px; font-size:13.5px; color:var(--grey); line-height:1.5;}
 
   /* Stat strip */
   .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:56px;}
@@ -73,13 +80,16 @@
   .stat .label{margin-top:10px; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--grey-dim);}
 
   /* Federation strip */
-  .fed-strip{padding:26px 0; border-bottom:1px solid var(--line);}
-  .fed-strip .wrap{display:flex; flex-direction:column; align-items:flex-start; gap:18px;}
-  .fed-strip .fed-label{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--grey-dim);}
-  .fed-logos{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
-  .fed-logo{position:relative; background:#fff; border-radius:10px; padding:12px 18px; height:56px; display:flex; align-items:center; justify-content:center;}
-  .fed-logo img{height:100%; width:auto; max-width:150px; object-fit:contain; display:block;}
-  .knltb-badge{position:absolute; bottom:-9px; right:-9px; background:var(--yellow); color:var(--black); font-family:var(--display); font-weight:800; font-size:10px; padding:3px 8px; border-radius:20px; border:2px solid var(--black); white-space:nowrap;}
+  .fed-strip{padding:56px 0; border-bottom:1px solid var(--line);}
+  .fed-strip .wrap{display:flex; flex-direction:column; align-items:center; gap:32px; text-align:center;}
+  .fed-strip .fed-label{font-family:var(--display); font-weight:700; font-size:20px; color:var(--white); display:flex; align-items:center; gap:10px;}
+  .fed-strip .fed-label::before{content:''; width:9px; height:9px; border-radius:50%; background:var(--yellow); flex-shrink:0;}
+  .fed-logos{display:flex; align-items:flex-start; justify-content:center; gap:24px; flex-wrap:wrap;}
+  .fed-item{display:flex; flex-direction:column; align-items:center; gap:14px; width:140px;}
+  .fed-logo{background:#f2f1ec; border-radius:16px; width:140px; height:140px; display:flex; align-items:center; justify-content:center; padding:22px;}
+  .fed-logo img{max-width:100%; max-height:100%; object-fit:contain; display:block;}
+  .fed-name{font-family:var(--display); font-weight:700; font-size:16px; color:var(--white);}
+  .knltb-badge{font-family:var(--display); font-weight:800; font-size:11px; color:var(--yellow); border:1px solid var(--yellow); padding:3px 10px; border-radius:20px; white-space:nowrap;}
 
   section{position:relative; z-index:1; padding:88px 0;}
   section + section{border-top:1px solid var(--line);}
@@ -101,6 +111,8 @@
   /* Feature grid (localization / on-court) */
   .feature-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line);}
   @media (max-width:760px){ .feature-grid{grid-template-columns:1fr;} }
+  .oncourt-photo{border-radius:14px; overflow:hidden; border:1px solid var(--line); margin-bottom:40px; aspect-ratio:2.2/1;}
+  .oncourt-photo img{width:100%; height:100%; object-fit:cover; display:block;}
   .feature-card{background:var(--black); padding:30px 28px;}
   .feature-card .num{font-family:var(--display); font-weight:800; color:var(--yellow); font-size:13px; margin-bottom:14px;}
   .feature-card h3{font-family:var(--display); font-size:18px; font-weight:700; margin-bottom:8px;}
@@ -111,6 +123,39 @@
   .lang-chip{display:flex; flex-direction:column; align-items:center; gap:4px; background:var(--carbon); border:1px solid var(--line); border-radius:8px; padding:10px 12px; min-width:52px;}
   .lang-chip .flag{font-size:22px; line-height:1;}
   .lang-chip .code{font-family:var(--display); font-size:10px; font-weight:800; color:var(--grey); letter-spacing:.05em;}
+
+  /* Online part — two column with phone mockup */
+  .online-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:64px; align-items:center;}
+  @media (max-width:880px){ .online-grid{grid-template-columns:1fr; gap:48px;} }
+  .online-eyebrow{font-family:var(--display); font-weight:700; font-size:13px; letter-spacing:.14em; color:var(--grey-dim); display:flex; align-items:center; gap:9px; margin-bottom:22px;}
+  .online-eyebrow::before{content:''; width:8px; height:8px; border-radius:50%; background:var(--yellow);}
+  .online-h2{font-family:var(--display); font-weight:800; font-size:clamp(32px,4vw,44px); line-height:1.08; letter-spacing:-.01em; margin-bottom:28px;}
+  .online-h2 .hl{color:var(--yellow);}
+  .online-stat{display:flex; align-items:flex-start; gap:16px; padding-bottom:28px; margin-bottom:26px; border-bottom:1px solid var(--line);}
+  .online-stat-num{font-family:var(--display); font-weight:900; font-size:64px; line-height:.85; color:var(--yellow);}
+  .online-stat-num span{font-size:.55em;}
+  .online-stat-text{font-family:var(--display); font-weight:700; font-size:16px; margin-top:8px;}
+  .online-feature{display:flex; gap:16px; padding:18px 0; border-bottom:1px solid var(--line);}
+  .online-feature .oi{width:26px; height:26px; flex-shrink:0; margin-top:2px;}
+  .online-feature .oi svg{width:100%; height:100%;}
+  .online-feature h3{font-family:var(--display); font-weight:700; font-size:16px; margin-bottom:6px;}
+  .online-feature p{font-size:13.5px; color:var(--grey); line-height:1.55;}
+  .online-lang-row{display:flex; gap:7px; margin-top:12px; flex-wrap:wrap;}
+  .online-lang-chip{font-family:var(--display); font-weight:700; font-size:11px; color:var(--grey); border:1px solid var(--line); border-radius:20px; padding:5px 12px;}
+  .store-badges{display:flex; gap:12px; margin-top:30px; flex-wrap:wrap;}
+  .store-badge{display:flex; align-items:center; gap:10px; background:#000; border:1px solid var(--line); border-radius:8px; padding:9px 16px; cursor:pointer; transition:transform .2s ease, border-color .2s ease;}
+  .store-badge:hover{transform:translateY(-2px); border-color:var(--yellow);}
+  .store-badge div{display:flex; flex-direction:column; line-height:1.15;}
+  .store-badge span{font-size:9.5px; color:var(--grey);}
+  .store-badge strong{font-family:var(--display); font-size:14px; font-weight:700; color:#fff;}
+  .online-visual{display:flex; justify-content:center;}
+  .phone-frame{position:relative; width:260px; border-radius:36px; border:8px solid #1a1a1a; background:#000; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,.5); aspect-ratio:9/19.5;}
+  .phone-notch{position:absolute; top:0; left:50%; transform:translateX(-50%); width:110px; height:22px; background:#1a1a1a; border-radius:0 0 14px 14px; z-index:2;}
+  .phone-frame img{width:100%; height:100%; object-fit:cover; object-position:top; display:block;}
+
+  .exam-portal-link{display:block; border-radius:20px; overflow:hidden; border:1px solid var(--line); background:var(--carbon); padding:24px; transition:transform .25s cubic-bezier(.22,.9,.3,1), border-color .25s ease, box-shadow .25s ease;}
+  .exam-portal-link:hover{transform:scale(1.02); border-color:var(--yellow); box-shadow:0 20px 50px rgba(0,0,0,.5);}
+  .exam-portal-link img{width:100%; height:auto; display:block; border-radius:10px;}
 
   /* Exam / verify split */
   .split{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line);}
@@ -167,8 +212,8 @@
           <img src="assets/thumb-instructor.png" alt="Instructor diploma">
           <span class="hstrip-num">01</span>
         </div>
-        <div class="hstrip-name">Instructor</div>
-        <div class="hstrip-tag">Entry Level · Online</div>
+        <span class="hstrip-pill solid">FULLY ONLINE</span>
+        <div class="hstrip-desc">The entry level — learn the coaching fundamentals.</div>
       </div>
       <div class="hstrip-item">
         <div class="hstrip-thumb">
@@ -176,8 +221,8 @@
           <img src="assets/thumb-bronze.png" alt="Bronze diploma">
           <span class="hstrip-num">02</span>
         </div>
-        <div class="hstrip-name">Bronze</div>
-        <div class="hstrip-tag">Level 1 · Online + Practical</div>
+        <span class="hstrip-pill outline">ONLINE + PRACTICAL</span>
+        <div class="hstrip-desc">The essential foundation for every coach.</div>
       </div>
       <div class="hstrip-item">
         <div class="hstrip-thumb">
@@ -185,8 +230,8 @@
           <img src="assets/thumb-silver.png" alt="Silver diploma">
           <span class="hstrip-num">03</span>
         </div>
-        <div class="hstrip-name">Silver</div>
-        <div class="hstrip-tag">Level 2 · Online + Practical</div>
+        <span class="hstrip-pill outline">ONLINE + PRACTICAL</span>
+        <div class="hstrip-desc">Deeper methodology for competitive players.</div>
       </div>
       <div class="hstrip-item">
         <div class="hstrip-thumb">
@@ -194,8 +239,8 @@
           <img src="assets/thumb-gold.png" alt="Gold diploma">
           <span class="hstrip-num">04</span>
         </div>
-        <div class="hstrip-name">Gold</div>
-        <div class="hstrip-tag">Level 3 · Online + Practical</div>
+        <span class="hstrip-pill outline">ONLINE + PRACTICAL</span>
+        <div class="hstrip-desc">High-performance coaching for ambitious players.</div>
       </div>
       <div class="hstrip-item invite">
         <div class="hstrip-thumb">
@@ -203,25 +248,25 @@
           <img src="assets/thumb-platinum.png" alt="Platinum diploma">
           <span class="hstrip-num">05</span>
         </div>
-        <div class="hstrip-name">Platinum</div>
-        <div class="hstrip-tag">Level 4 · Invitational</div>
+        <span class="hstrip-pill invite">INVITATION ONLY</span>
+        <div class="hstrip-desc">Elite mastery — the highest standard.</div>
       </div>
     </div>
 
     <div class="stats">
-      <div class="stat">
+      <div class="stat reveal">
         <div class="num">2016</div>
         <div class="label">Since</div>
       </div>
-      <div class="stat">
+      <div class="stat reveal">
         <div class="num">7,000<span class="plus">+</span></div>
         <div class="label">Coaches certified</div>
       </div>
-      <div class="stat">
+      <div class="stat reveal">
         <div class="num">35<span class="plus">+</span></div>
         <div class="label">Countries</div>
       </div>
-      <div class="stat">
+      <div class="stat reveal">
         <div class="num">5<span class="plus">+</span></div>
         <div class="label">Federation partners</div>
       </div>
@@ -231,13 +276,29 @@
 
 <div class="fed-strip">
   <div class="wrap">
-    <span class="fed-label">Methodology recognized by national federations</span>
+    <span class="fed-label">The Official Course for National Federations</span>
     <div class="fed-logos">
-      <div class="fed-logo"><img src="assets/fed-germany.png" alt="Deutscher Padel Verband"></div>
-      <div class="fed-logo"><img src="assets/fed-austria.png" alt="Austrian Padel Union"></div>
-      <div class="fed-logo"><img src="assets/fed-denmark.png" alt="Dansk Padel Forbund"></div>
-      <div class="fed-logo"><img src="assets/fed-switzerland.png" alt="Swiss Padel"></div>
-      <div class="fed-logo"><img src="assets/fed-netherlands.png" alt="KNLTB Padel"><span class="knltb-badge">+12 pts</span></div>
+      <div class="fed-item reveal">
+        <div class="fed-logo"><img src="assets/fed-germany.png" alt="Deutscher Padel Verband"></div>
+        <span class="fed-name">Germany</span>
+      </div>
+      <div class="fed-item reveal">
+        <div class="fed-logo"><img src="assets/fed-austria.png" alt="Austrian Padel Union"></div>
+        <span class="fed-name">Austria</span>
+      </div>
+      <div class="fed-item reveal">
+        <div class="fed-logo"><img src="assets/fed-denmark.png" alt="Dansk Padel Forbund"></div>
+        <span class="fed-name">Denmark</span>
+      </div>
+      <div class="fed-item reveal">
+        <div class="fed-logo"><img src="assets/fed-switzerland.png" alt="Swiss Padel"></div>
+        <span class="fed-name">Switzerland</span>
+      </div>
+      <div class="fed-item reveal">
+        <div class="fed-logo"><img src="assets/fed-netherlands.png" alt="KNLTB Padel"></div>
+        <span class="fed-name">Netherlands</span>
+        <span class="knltb-badge">+12 pts</span>
+      </div>
     </div>
   </div>
 </div>
@@ -294,28 +355,68 @@
   </div>
 </section>
 
-<section id="localization" style="padding:44px 0;">
+<section id="online-app" style="padding:72px 0;">
   <div class="wrap">
-    <div class="feature-grid">
-      <div class="feature-card" style="grid-column:1/-1;">
-        <div class="feature-icon" aria-hidden="true">
-          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 20a12 12 0 0 1 24 0" stroke="#ffdd3c" stroke-width="2.2" stroke-linecap="round"/>
-            <rect x="5.5" y="19" width="6" height="10" rx="3" fill="#ffdd3c"/>
-            <rect x="28.5" y="19" width="6" height="10" rx="3" fill="#ffdd3c"/>
-            <path d="M17 30.5h4.5a2.5 2.5 0 0 0 0-5H17" stroke="#ffdd3c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+    <div class="online-grid">
+      <div class="online-copy">
+        <div class="online-eyebrow">● THE ONLINE PART</div>
+        <h2 class="online-h2">World-class coaching,<br><span class="hl">delivered online.</span></h2>
+
+        <div class="online-stat">
+          <div class="online-stat-num">100<span>+</span></div>
+          <div class="online-stat-text">Premium video lessons,<br>on demand inside our APP</div>
         </div>
-        <h3>Everything, in your language</h3>
-        <p>The app, the videos, the quiz questions, the Exam Portal, and the theoretical, spoken and practical exams — all available in multiple languages, so you never miss a detail.</p>
-        <div class="lang-row">
-          <span class="lang-chip"><span class="flag">🇬🇧</span><span class="code">EN</span></span>
-          <span class="lang-chip"><span class="flag">🇪🇸</span><span class="code">ES</span></span>
-          <span class="lang-chip"><span class="flag">🇩🇪</span><span class="code">DE</span></span>
-          <span class="lang-chip"><span class="flag">🇫🇷</span><span class="code">FR</span></span>
-          <span class="lang-chip"><span class="flag">🇮🇹</span><span class="code">IT</span></span>
-          <span class="lang-chip"><span class="flag">🇸🇦</span><span class="code">AR</span></span>
-          <span class="lang-chip"><span class="flag">🇷🇺</span><span class="code">RU</span></span>
+
+        <div class="online-feature reveal">
+          <div class="oi" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" fill="#ffdd3c"/><path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8L19 14z" fill="#ffdd3c"/></svg>
+          </div>
+          <div>
+            <h3>Premium visual effects</h3>
+            <p>Cinematic production and tactical court overlays make every concept click.</p>
+          </div>
+        </div>
+
+        <div class="online-feature reveal">
+          <div class="oi" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="3" width="16" height="18" rx="2.5" stroke="#ffdd3c" stroke-width="1.8"/><path d="M8 8h8M8 12h5" stroke="#ffdd3c" stroke-width="1.8" stroke-linecap="round"/><path d="M8.2 16l1.6 1.6L12.5 15" stroke="#ffdd3c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h3>Questions to reinforce learning</h3>
+            <p>A quiz at the end of every lesson locks in what coaches learn.</p>
+          </div>
+        </div>
+
+        <div class="online-feature reveal">
+          <div class="oi" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="#ffdd3c" stroke-width="1.8"/><path d="M3 12h18M12 3c2.4 2.4 3.6 5.6 3.6 9s-1.2 6.6-3.6 9c-2.4-2.4-3.6-5.6-3.6-9S9.6 5.4 12 3z" stroke="#ffdd3c" stroke-width="1.8"/></svg>
+          </div>
+          <div>
+            <h3>Dubbed audio in 7 languages</h3>
+            <p>Coaches learn in the language they think in.</p>
+            <div class="online-lang-row">
+              <span class="online-lang-chip">EN</span><span class="online-lang-chip">ES</span><span class="online-lang-chip">DE</span>
+              <span class="online-lang-chip">FR</span><span class="online-lang-chip">IT</span><span class="online-lang-chip">AR</span><span class="online-lang-chip">RU</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="store-badges">
+          <a href="https://onelink.to/hello-padel-app" class="store-badge">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#fff" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.437 2.06-1.313 2.75-.876.7-1.76 1.03-2.65.99-.06-1.1.38-2.05 1.32-2.85.85-.75 1.75-1.1 2.62-1.14.02.08.02.17.02.25zm4.32 16.6c-.36.86-.8 1.65-1.32 2.38-.72 1.02-1.31 1.72-1.76 2.1-.68.62-1.4.94-2.18.96-.56 0-1.23-.16-2-.48-.78-.32-1.5-.48-2.16-.48-.7 0-1.44.16-2.24.48-.8.32-1.44.5-1.94.52-.75.03-1.5-.3-2.24-.98-.5-.42-1.13-1.15-1.87-2.2-.8-1.14-1.46-2.46-1.98-3.98-.56-1.64-.84-3.23-.84-4.77 0-1.76.38-3.28 1.14-4.55.6-1.02 1.4-1.83 2.4-2.42 1-.6 2.08-.9 3.24-.92.6 0 1.4.18 2.4.55 1 .37 1.64.55 1.93.55.22 0 .93-.22 2.12-.65 1.13-.4 2.08-.56 2.87-.5 2.12.17 3.72 1 4.78 2.5-1.9 1.15-2.84 2.76-2.83 4.82.02 1.6.6 2.94 1.75 4 .52.5 1.1.88 1.75 1.15z"/></svg>
+            <div><span>Available on the</span><strong>App Store</strong></div>
+          </a>
+          <a href="https://onelink.to/hello-padel-app" class="store-badge">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true"><path d="M4 2.5c-.4.2-.6.6-.6 1.1v17c0 .5.2.9.6 1.1l10-9.6L4 2.5z" fill="#00D3FF"/><path d="M4 2.5l10 9.6L17.5 8.5 5.7 2c-.5-.2-1.2-.1-1.7.5z" fill="#00F076"/><path d="M4 21.5c.5.6 1.2.7 1.7.5l11.8-6.5-3.5-3.6L4 21.5z" fill="#FF3A44"/><path d="M17.5 8.5l3.5 2c.6.4.6 1.1 0 1.5l-3.5 2-3.5-3.6 3.5-3.4z" fill="#FFCA28"/></svg>
+            <div><span>Get it on</span><strong>Google Play</strong></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="online-visual reveal">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <img src="assets/app-lesson-screenshot.png" alt="HELLO PADEL app lesson screen">
         </div>
       </div>
     </div>
@@ -332,23 +433,27 @@
       <p class="section-sub">An intensive, in-person practical course led by HELLO PADEL tutors. From the Bronze course onwards, the in-person part is a must to complete every stage: online, in-person and examination.</p>
     </div>
 
+    <div class="oncourt-photo reveal">
+      <img src="assets/oncourt-group-photo.jpg" alt="HELLO PADEL Head Coaches on court with a group of certified coaches">
+    </div>
+
     <div class="feature-grid">
-      <div class="feature-card">
+      <div class="feature-card reveal">
         <div class="num">01</div>
         <h3>Methodology in Action</h3>
         <p>Our global coaching framework, applied in real sessions on court.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal">
         <div class="num">02</div>
         <h3>Exercises to Master</h3>
         <p>Dozens of hands-on drills you can use every day — combine them with the exercises from the videos you already have access to.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal">
         <div class="num">03</div>
         <h3>Tactical Coaching</h3>
         <p>Teach your players while they play the sport. Padel is more tactical than technical, and people want to play and have fun — the HELLO PADEL Method is the perfect mix to lead any level session.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal">
         <div class="num">04</div>
         <h3>Live Feedback & Assessment</h3>
         <p>Personal, on-court feedback that leads directly into the practical exam.</p>
@@ -359,36 +464,51 @@
 
 <section id="exam-verify">
   <div class="wrap">
-    <div class="section-head">
-      <div>
-        <div class="section-num">03 — Evaluation & Verification</div>
-        <h2>Tested, marked, certified</h2>
-      </div>
-      <p class="section-sub">Passing a HELLO PADEL level means something — and anyone can check it.</p>
-    </div>
+    <div class="online-grid">
+      <div class="online-copy">
+        <div class="online-eyebrow">● EXAMINATIONS</div>
+        <h2 class="online-h2">Tested, corrected,<br><span class="hl">certified.</span></h2>
 
-    <div class="split">
-      <div class="split-card">
-        <div class="tag">Exam System</div>
-        <h3>Theoretical, spoken & practical</h3>
-        <p class="desc">Coaches sit a multiple-choice theoretical exam, a spoken exam, and practical exams on court.</p>
-        <ul>
-          <li>Marked by the HELLO PADEL Exam Board in Spain</li>
-          <li>Detailed video feedback on every skill</li>
-          <li>Two attempts included per evaluated part</li>
-        </ul>
-        <a href="https://exams.hellopadelacademy.com/login/index.php?loginredirect=1" class="mini-btn">Open the Exam Portal →</a>
+        <div class="online-feature">
+          <div class="oi" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="3" width="14" height="18" rx="2" stroke="#ffdd3c" stroke-width="1.8"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4" stroke="#ffdd3c" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h3>Theoretical, Spoken &amp; Practical Exams</h3>
+            <p>Coaches are tested across a multiple choice theoretical exam, a spoken exam and on-court practical exams.</p>
+          </div>
+        </div>
+
+        <div class="online-feature">
+          <div class="oi" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8.5" r="5" stroke="#ffdd3c" stroke-width="1.8"/><path d="M8.5 12.8L7 21l5-2.3 5 2.3-1.5-8.2" stroke="#ffdd3c" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.7 8.5l1.7 1.7 3-3.4" stroke="#ffdd3c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h3>Corrected by Our Exam Board Team in Spain</h3>
+            <p>Every exam is reviewed by our examination board in Spain, with detailed video feedback to correct it and sharpen each coach's skills.</p>
+          </div>
+        </div>
+
+        <div class="online-feature">
+          <div class="oi" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l7 3v5.5c0 4.6-3 8.3-7 9.5-4-1.2-7-4.9-7-9.5V6l7-3z" stroke="#ffdd3c" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2.2 2.2L15.5 10" stroke="#ffdd3c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h3>Diploma &amp; Licence Number</h3>
+            <p>Once passed, the coach receives an official diploma and a unique licence number.</p>
+          </div>
+        </div>
+
+        <div class="cta-buttons" style="justify-content:flex-start; margin-top:30px;">
+          <a href="https://exams.hellopadelacademy.com/login/index.php?loginredirect=1" class="btn btn-primary">Open the Exam Portal →</a>
+          <span class="btn btn-ghost" style="cursor:default; opacity:.85; border-style:dashed;">Hello Padel Coach Verification →</span>
+        </div>
       </div>
-      <div class="split-card">
-        <div class="tag">Coach Verification</div>
-        <h3>Diploma & licence number</h3>
-        <p class="desc">Once approved, every coach receives an official diploma and a unique, publicly verifiable licence number.</p>
-        <ul>
-          <li>Public profile with level and completed training</li>
-          <li>Searchable by name or licence number</li>
-          <li>Possible recognition by partner federations</li>
-        </ul>
-        <span class="mini-btn" style="cursor:default; border-bottom-style:dashed; opacity:.85;">Coach Verification System</span>
+
+      <div class="online-visual reveal">
+        <a href="https://exams.hellopadelacademy.com/login/index.php?loginredirect=1" class="exam-portal-link" aria-label="Open the HELLO PADEL Exam Portal">
+          <img src="assets/exam-portal-login.png" alt="HELLO PADEL Exams login screen">
+        </a>
       </div>
     </div>
   </div>
@@ -408,7 +528,7 @@
 <footer>HELLO PADEL — DifferentLevel Coach Education</footer>
 
 <script>
-  const items = document.querySelectorAll('.hstrip-item, .rule');
+  const items = document.querySelectorAll('.hstrip-item, .rule, .reveal');
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
   }, { threshold: 0.3 });
